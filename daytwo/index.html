@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>计算方法</title>
+</head>
+<body>
+    <script>
+        //随机数
+        Math.random();//值[0,1) 大于等于0，小于1
+        Math.random();
+        console.log(Math.random());
+
+        for(var i = 0; i< 10; i++){
+            console.log(Math.random());
+        }
+        console.log('****************');
+
+        //产生一个[0,100)的随机数
+        console.log('55555',Math.random()*100);
+
+
+        //Math.floor() 保留数字整体部分，舍去小数
+        console.log('舍去小数',Math.random()*100);
+
+        //c产生[0，100]随机数
+        console.log('产生的随机数',Math.random()*101);
+        for(var i=0; i<20; i++){
+            console.log(Math.floor(Math.random()*101));
+        }
+
+        //[1,100] 闭区间
+        console.log(Math.floor('闭区间',Math.random() * 100 + 1));
+
+        //[10,100]
+        for(var i = 0; i < 20; i++){
+            console.log('[10,100]:' + Math.floor(Math.random() * 91 + 10));
+        }
+        //取[n,m] 闭区间
+        
+        // Math.floor(Math.random() * (m - n + 1) + n)
+        // console.log('~~~~~~~~~~~~~~~~~~');   
+
+        //产生10个[20，50]随机数
+        for(var i = 0; i < 10; i++){
+            console.log('某个区间内的随机数',Math.floor(Math.random() * (50 - 20 + 1) + 20))
+        }
+
+        
+
+    </script>
+</body>
+</html>

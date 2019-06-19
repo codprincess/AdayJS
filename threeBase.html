@@ -7,6 +7,161 @@
     <title>js基本算法</title>
 </head>
 <body>
-    
+    <input type="number" name="vl1" id="vl1" placeholder="请输入第一个数字" />
+		<br />
+    <input type="number" name="vl2" id="vl2" placeholder="请输入第二个数字" />
+        <br />
+    <input type="text" name="vl3" id="vl3" placeholder="最大值是" />
+    <input type="button" onclick="maxNumber();" value="确定" />
+    <hr />
+    <input type="number" id="year" name="year" placeholder="请输入年份" />
+    <br />
+    <input type="text" id="result" name="result" placeholder="是否是闰年" />
+    <input type="button" value="确定" onclick="judeg();" />
+    <hr />
+    <input type="number" id="grade" name="grade" placeholder="请输入成绩" />
+    <br />
+    <input type="text" id="gradeResult" name="result" placeholder="成绩等级" />
+    <input type="button" value="确定" onclick="query();" />
+
+    <script>
+        //一种写法
+        var a = 50;
+        var b = 60;
+        if(a>b){
+            console.log('最大值是：'+a);
+        }
+        if(a<b){
+            console.log('最大值是：'+b);
+        }
+        if(a === b){
+            console.log('a == b');
+        }
+
+        //第二种写法
+        var str = '下雨了';
+        if (str == '下雨') {
+            console.log('上课');
+        } else {
+            console.log('还得上课');
+        }
+
+        //比较两个数的最大值
+        function test() {
+            var a = 10,b = 20;
+            if (a > b) {
+                console.log('最大值是：' + a);
+            } else {
+                console.log('最大值是：' + b);
+            }
+        }
+        //调用
+        test();
+
+        //两个输入框，取到两个数，比较出最大值，放到第三个输入框
+        function maxNumber() {
+            alert('比较最大值');
+            var num1Value = document.getElementById('vl1');
+            var num2Value = document.getElementById('vl2');
+            var result = document.getElementById('vl3');
+            //				if(+num1Value.value > +num2Value.value){
+            //					result.value = num1Value.value;
+            //				}else{
+            //					result.value = num2Value.value;
+            //				}
+            //三目运算符
+            result.value = +num1Value.value > +num2Value.value ? num1Value.value : num2Value.value;
+        }
+
+        function judeg() {
+            //				alert('111');
+            var year = document.getElementById('year');
+            var result = document.getElementById('result');
+            //判断
+            //				console.log(typeof +year.value);
+            if (+year.value % 400 == 0 || (+year.value % 4 == 0 && +year.value % 100 != 0)) {
+                result.value = '闰年';
+            } else {
+                result.value = '平年';
+            }
+        }
+
+        //求三个数字的最大值
+			var a = 15,
+				b = 10,
+				c = 20;
+			function maxNumber() {
+//				默认第一个最大值
+				var maxV = a;
+				if (maxV < b) {
+					maxV = b;
+				}
+				if (maxV < c) {
+					maxV = c;
+				}
+				console.log('最大值是：' + maxV);
+			}
+            maxNumber();
+
+            //三个数最大值，三目运算符
+			function MaxValue() {
+				//前两个数最大值
+				var tempMax = a > b ? a : b;
+				var max = tempMax > c ? tempMax : c;
+				console.log('函数2最大值是：' + max);
+			}
+			//调用函数
+			MaxValue();
+
+            //3.三个数最大值，三目运算符
+			function maxValue3(){
+				var max = (a > b ? a : b) > c ?  (a > b ? a : b) : c;
+				console.log('函数3最大值是：'+ max);
+			}
+			//调用函数
+			maxValue3();
+
+            var numberOfFriends = 5;
+			if(numberOfFriends == 1){
+				console.log('一个人在家');
+			}else if(numberOfFriends == 2){
+				console.log('2个人打台球');
+			}else if(numberOfFriends == 3){
+				console.log('三个人斗地主');
+			}else if(numberOfFriends == 4){
+				console.log('四个人打麻将');
+			}else if(numberOfFriends == 5){
+				console.log('五个人开黑');
+			}else{
+				console.log('KTV');
+			}
+
+
+            //输入框 输入一个分数，大于等于90，输出优秀 >=80  <90 良好 >=70 <80中等  >=60 <70:及格 <60：不及格
+			//分数高过100或者小于0输出error
+			
+			function query(){
+				var grade = +document.getElementById('grade').value;
+				var gradeResult = document.getElementById('gradeResult');
+				
+				//判断
+				if(grade <= 0 || grade > 100){
+					gradeResult.value = 'error';
+				}else{
+					if(grade >=90){
+					gradeResult.value = '优秀';
+					}else if(grade >= 80){
+					gradeResult.value = '良好';
+					}else if(grade >= 70){
+					gradeResult.value = '中等';
+					}else if(grade >= 60){
+					gradeResult.value = '及格';
+					}else{
+					gradeResult.value = '不及格';
+					}
+				}
+			}
+
+    </script>
 </body>
 </html>
