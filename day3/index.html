@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>常用的算法</title>
+</head>
+<body>
+    <script>
+        // 1.求1 x 2 x 3 x 4 x ... x 19 x 20的结果? 
+
+        var result = 1;
+        for(var i = 1;i <= 20;i++){
+            result *=i;
+        }
+        console.log(result);
+        console.log('————————————————————————');
+        //2.已知abc+cba = 1333，其中a、b、c均为一位数，编程求出满足条件的a、b、c所有组合。
+        for(var a =0;a<=9;a++){
+            for(var b = 0;b<=9;b++){
+                for(var c = 0;c<=9;c++){
+                    if(a*100+b*10+c+c*100+b*10+a==1333){
+                        console.log(a,b,c);
+                    }
+                }
+            }
+        }
+
+        
+    </script>
+</body>
+</html>
