@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>例子</title>
+    <style>
+        #show{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition: all 1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <select name="all" id="select">
+            <option value="width">宽度</option>
+            <option value="height">高度</option>
+            <option value="backgroundColor">背景色</option>
+        </select>
+            <span>值：</span>
+            <input type="text" id="inP"/>
+            <!--<input type="button" id="certainBth" value="确定" />-->
+            <button id="certainBth">确定</button>
+            <div id="show"></div>
+    </div>
+    <script>
+        //列表
+			var selectObj = document.getElementById("select");
+			//输入框
+			var inpObj = document.getElementById("inP");
+			//按钮
+			var btnObj = document.getElementById("certainBth");
+			//显示的div
+			var show = document.getElementById("show");
+			//给按钮绑定点击事件
+			btnObj.onclick = function(){
+				//alert(111);
+				show.style[selectObj.value] = '200px';
+			};
+    </script>
+</body>
+</html>
