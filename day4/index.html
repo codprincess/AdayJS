@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body:after {
+            content: "";
+            display: block;
+            position: absolute;
+            background: url("../image/1") no-repeat -10000px -1000px,
+                url("../image/manage/2") no-repeat -10000px -1000px,
+                url("../image/manage/3") no-repeat -10000px -1000px,
+                url("../image/manage/4") no-repeat -10000px -1000px,
+                url("../image/manage/5") no-repeat -10000px -1000px,
+                url("../image/manage/6") no-repeat -10000px -1000px,
+                url("../image/manage/7") no-repeat -10000px -1000px,
+                url("../image/manage/8") no-repeat -10000px -1000px;
+            width: 0;
+            height: 0
+        }
+    </style>
+
+    <script>
+        //存放图片路径的数组
+        var imgSrcArr = [
+            'imgsrc1',
+            'imgsrc2',
+            'imgsrc3',
+            'imgsrc4'
+        ];
+
+        var imgWrap = [];
+
+        function preloadImg(arr) {
+            for(var i =0; i< arr.length ;i++) {
+                imgWrap[i] = new Image();
+                imgWrap[i].src = arr[i];
+            }
+        }
+
+        preloadImg(imgSrcArr);
+
+        //或者延迟的文档加载完毕在加载图片
+
+        $(function () {
+            preloadImg(imgSrcArr);
+        })
+
+
+        window.onload = function() {
+            setTimeout(function() {
+                // XHR to request a JS and a CSS
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'http://domain.tld/preload.js');
+                xhr.send('');
+                xhr = new XMLHttpRequest();
+                xhr.open('GET', 'http://domain.tld/preload.css');
+                xhr.send('');
+                // preload image
+                new Image().src = "http://domain.tld/preload.png";
+            }, 1000);
+        };
+    </script>
+      
+      
+</body>
+</html>
