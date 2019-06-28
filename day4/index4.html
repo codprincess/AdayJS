@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代理模式</title>
+</head>
+<body>
+    <script>
+                // 补打卡事件
+        var fillOut = function (lateDate) {
+
+            this.lateDate = lateDate;
+        };
+
+        // 这是bigBoss
+        var bigBoss = function (fillOut) {
+
+        this.state = function (isSuccess) {
+            console.log("忘记打卡的日期为：" + fillOut.lateDate + ", 补打卡状态：" + isSuccess);
+        }
+        };
+        // 助理代理大boss 完成补打卡审批
+        var proxyAssis = function (fillOut) {
+
+        this.state = function (isSuccess) {
+            (new bigBoss(fillOut)).state(isSuccess); // 替bigBoss审批
+        }
+        };
+        // 调用方法：
+        var proxyAssis = new proxyAssis(new fillOut("2016-9-11"));
+        proxyAssis.state("补打卡成功");
+    </script>
+</body>
+</html>
