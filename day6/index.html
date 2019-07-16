@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用面向对象的方法表示课程以及老师安排</title>
+</head>
+<body>
+    <script>
+        //首先创建一个类的构造函数,有两个参数一个是课程名称一个是老师
+        function lecture(name,teacher){
+            //将参数保存为对象的属性
+            this.name = name;
+            this.teacher = teacher;
+        }
+        lecture.prototype.display = function(){
+            return this.name+"is teacher"+this.teacher;
+        }
+
+        var teachers = new lecture("黄老师","英语")
+        var teachers_msg = teachers.display();
+        alert(teachers_msg);
+        
+        // //以课程的数组作为参数,创建Schedule类的构造函数
+        function Schedule(lectures){
+            this.lectures = lectures;
+        }
+
+        // //构造一条字符串,表示课程的安排
+        Schedule.prototype.display = function(){
+            var str = "";
+            //遍历每项课程,建立包含他们信息的字符串
+            for(var i = 0;i<this.lectures.length;i++){
+                str += this.lectures[i].display + "";
+                return str;
+            }
+        }
+
+        var mySchedule = new lecture([
+            new lecture("Math","Mrs.jing"),
+            new lecture("English","hhhhhh")
+        ])
+
+        alert(mySchedule.display());
+        console.log(mySchedule.display());
+
+    </script>
+</body>
+</html>
