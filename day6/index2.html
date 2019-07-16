@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用DOM定位并操作不同的DOM元素</title>
+</head>
+<body>
+    <li class="" ></li>
+    <li class="" ></li>
+    <li class="" ></li>
+    <li class="" ></li>
+    <li class="" id="every"></li>
+    <script>
+        //在文档加载完成之后才能操作dom
+        window.onload = function(){
+            //获取文档的所有li标签
+            var li = document.getElementsByTagName("li");
+
+            console.log(li);
+            //并给他们全部添加一个边框
+            for(var j = 0;j<li.length;j++){
+                li[j].style.border = "1px solid #000";
+                li[j].style.listStyleType = "none";
+                li[j].style.height = "30px";
+            }
+
+            for(var i = 0;i<li.length-1;i++){
+                li[i].style.borderBottom = "none";
+            }
+            
+            
+            li[li.length-1].style.borderBottomColor = "red";
+          
+           
+        }
+    </script>
+</body>
+</html>
