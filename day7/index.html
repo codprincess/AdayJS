@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用DOM和事件来提供视觉效果</title>
+</head>
+<body>
+    <div>
+        <li>12423453</li>
+        <li>54646</li>
+        <li>67868</li>
+        <li>899</li>
+        <li>565</li>
+        <li>78878</li>
+    </div>
+    <script>
+        //文档加载完成后在操作DOM
+        window.onload = function(){
+            //获取所有的li元素,加上事件处理函数
+            var li = document.getElementsByTagName("li");
+            //加上mouseover事件
+            for(var i = 0;i<li.length;i++){
+                li[i].onmouseover = function(){
+                    this.style.backgroundColor = 'blue';
+                };
+
+                li[i].onmouseout = function(){
+                    this.style.backgroundColor = 'white';
+                }
+            }
+        }    
+
+        //es6
+       
+
+        }
+    </script>
+</body>
+</html>
