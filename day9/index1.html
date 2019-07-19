@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>闭包的使用</title>
+</head>
+<body>
+    <div id="main" style="height: 100px;">11223</div>
+    <script>
+        var obj = document.getElementById("main");
+        //
+        obj.style.border = "1px solid red";
+        //初始化一个在1秒后执行的回调函数
+       setTimeout(() => {
+           //隐藏此对象
+            obj.style.display = 'none';
+       }, 1000);
+
+
+       //用于延时显示警告信息的通用函数
+       function delateAlert(msg,time){
+           //初始化一个封装的回调函数
+           setTimeout(() => {
+               alert(msg);
+           }, time);
+       }
+
+       //用两个参数调用delateAlert函数
+       delateAlert("welcome",2000);
+
+
+       //用闭包实现的函数curry化
+       //数字求和函数的求和生成器
+       function addGenerator(num){
+           //返回一个简单的的函数,求两个数字的和,其中第一个数字来自生成器
+           return function(toAdd){
+               return num+toAdd
+           };
+       }
+
+       var addFive = addGenerator(5);
+
+       console.log(addFive(4));//9
+       alert(addFive(4));//9
+
+
+
+       //
+    </script>
+</body>
+</html>

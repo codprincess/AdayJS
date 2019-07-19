@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用匿名函数来激发出创建多个使用闭包的函数所需的作用域</title>
+</head>
+<body>
+    <div id="main" style="height: 100px;">11223</div>
+    <script>
+        var obj = document.getElementById("main");
+        //用于绑定的一个数组
+        var items = ["click","keypress"];
+        //遍历数组的每个成员
+        for(var i=0;i<items.length;i++){
+            //使用匿名函数
+            (function(){
+                //记住在这个作用域的值
+                var item = items[i];
+                //将一个函数绑定到该元素
+                obj["on"+item] = function(){
+                    alert(item);
+                    console.log(item);
+                }
+            })
+        }
+    </script>
+</body>
+</html>

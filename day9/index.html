@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js变量作用域</title>
+</head>
+<body>
+    <script>
+        //设置全局变量,并设为""test"
+        var foo = "test";    
+        //在if块中
+        if(true){
+            var foo = "new test";
+        }
+       // alert(foo);//new test
+
+        //创建一个会修改变量的foo的新函数
+        function test(){
+            var foo = "old test";
+            
+           
+        }
+
+        //然而在调用时,foo只是在函数作用域内起作用
+        test();
+        alert(foo)//new test
+
+
+        //全局作用域和window对象
+        var test = 'test';
+        //window对象属性和全局属性是一致的
+        alert(window.test == test);
+
+        
+    </script>
+</body>
+</html>
