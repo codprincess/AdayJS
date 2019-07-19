@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一个函数,可以用来严格维护传入函数的所有参数</title>
+</head>
+<body>
+    <script>
+        //用一个变量类型列表严格检查一个参数列表
+        function strict(types,args){
+            //保证类型的数量和参数的数量相互匹配
+            if(types.length != args.length){
+                //否则抛出一个有用的异常
+                throw "Invalid number of arguments. Expected " + types.length + ", received" + args.length + "instead";
+            }
+
+            //遍历所有的参数,检查他们的类型
+            for(var i=0;i<args.length; i++){
+                if(args[i].constructor != types[i]){
+                    throw "Invalid arguments tyep .Expected"+types[i].name+", received"+args[i].constructor.name+"instead";
+                }
+            }
+        }   
+
+        //一个简单的函数,打印用户列表
+        function userList(prefix,num,users){
+            strict([String,Number,Array],arguments);
+            //遍历
+            for(var i = 0; i<num;i++){
+                //显示每个用户的信息
+                print(prefix+":"+users[i]);
+            }
+        }
+    </script>
+</body>
+</html>

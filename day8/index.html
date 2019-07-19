@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>面向对象的JavaScript</title>
+</head>
+<body>
+    <script>
+        //1多个变量引用同一个对象
+        //将obj设置为空对象
+        var obj = new Object();
+        //objRef 是另一个对象的引用
+        var objRef = obj;
+        
+        //修改原对象的一个属性
+        obj.oneProperty = true;
+
+        console.log('1',obj.oneProperty);//true
+        console.log('2',objRef.oneProperty);//true
+
+
+        //2多个变量的内容可以同时被修改
+        //创建一个数组
+        var items = new Array("one","two","three");
+        //创建数组的引用
+        var itemsRef = items;
+        //将一个元素添加到原数组中,长度一样
+        items.push("four");
+        console.log('3',items.length);
+        console.log('4',itemsRef.length);
+
+
+        //3修改对象的引用,同时保持完整性
+        var items2 = new Array("one","two","three");
+        var itemsRef2 = items2;
+        //设置为一个新的对象
+        items2 = new Array("new","array");
+        console.log('5',items2);//["new", "array"]
+        console.log('6',itemsRef2);//["one", "two", "three"]
+
+
+        //4修改对象而生成新的对象
+        //将item3置为一个新的字符串对象
+        var items3 = "test";
+        var itemsRef3 = items3;
+        //将一些新的文本接在这个字符串后面
+        items3 += "ing";
+        console.log('7',items3);
+        console.log('8',itemsRef3);
+
+        //js中函数重载
+        function sendMessage(msg,obj){
+            //如果消息和对象的参数都被提供
+            if(arguments.length == 2){
+                //给对象发送消息
+                obj.handleMsg(msg);
+            }else{
+                //alert(msg);
+            }
+
+        }
+
+        //调用
+      //  sendMessage("hello,world!");
+
+        //可以将自己写的对象传入\
+        sendMessage("how are you",{
+            handleMsg:function(msg){
+                //alert(msg);
+            }
+        })
+
+        //一个接受任意数量参数并将其转换为数组的函数
+        function makeArray(){
+            //临时使用的数组
+            var arr = [];
+            //遍历每个传入的参数
+            for(var i = 0;i < arguments.length;i++){
+                arr.push(arguments[i]);
+            }
+
+            console.log('9',arr);
+            //返回结果的数组
+            return arr;
+        }
+
+        makeArray("a","b","c","d");
+
+
+        //显示错误信息和默认信息
+        function displayerror(msg){
+            if(typeof msg == 'undefined'){
+                msg = "An error"
+            }
+
+            //显示消息
+            alert(msg);
+        }
+
+        displayerror("亲,出错了");
+
+
+        //使用typeof来判断对象类型的例子
+        //检查是否对象类型
+        if(typeof num == "string"){
+            num = parseInt(num);
+
+        }
+
+        //检查数组是否实际上是字符串
+        if(typeof arr == "string"){
+            //如果是,根据逗号切分出数组来
+            arr = arr.split(",")
+        }
+
+        //使用构造函数的属性来判断对象的类型
+        if(num.constructor == String){
+            num = parseInt(num);
+
+        }
+        if(str.constructor == Array){
+            str = str.join(',');
+        }
+    </script>
+</body>
+</html>
