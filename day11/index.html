@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>创建可重用的代码</title>
+</head>
+<body>
+    <script>
+        //原型式继承的例子
+        //为person对象创建一个构造函数
+        function Person(name){
+            this.name = name;
+        }
+
+        //给Person对象添加一个新的方法
+        Person.prototype.getName = function(){
+            return this.name;
+        };
+
+        function User(name,password){
+            this.name = name;
+            this.password = password;
+        }
+
+        //User对象继承所有Person的对象方法
+        User.prototype = new Person();
+        //我们添加一个新方法到User对象中
+        User.prototype.getPassword = function(){
+            return this.password;
+        }
+
+        User.method('getName',function(){
+            return "My name is:"+this.uber('getName');
+        })
+    </script>
+</body>
+</html>
