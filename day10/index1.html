@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对象的方法通过prototype对象添加的列子</title>
+</head>
+<body>
+    <script>
+        //创建一个User 构造函数
+        function User(name,age){
+            this.name = name;
+            this.age = age;
+        }
+
+        //将一个新的函数添加到此对象的prototype对象中
+        User.prototype.getName = function(){
+            return this.name;
+        };
+
+        User.prototype.getAge = function(){
+            return this.age;
+        };
+
+        //实例化一个新的User对象
+        var user = new User("bob",44);
+        console.log(user.getName());
+        console.log(user.getAge());
+
+        //只能由构造函数访问的私有方法的例子
+        //表示教室的一个对象构造函数
+        function Classroom(students,teacher){
+            //用于显示所有班上学生的私有方法
+            function disp(){
+                alert(this.names.join(","));
+            }
+
+            //将班级数据存入公共对象属性中
+            this.students = students;
+            this.teacher = teacher;
+
+            //调用私有方法来显示错误
+            disp();
+        }
+
+        //创建一个新的classroom对象
+        var classR = new Classroom("JING","zhang");
+        classR.disp();
+    </script>
+</body>
+</html>

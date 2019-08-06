@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>面向对象的JavaScript</title>
+</head>
+<body>
+    <script>
+        //接受名称并将其存入当前上下文
+        function User(name){
+            this.name = name;
+        }
+
+        //指定名称来创建该函数的一个新对象
+        var me = new User('My Name');
+        alert(me.name == "My Name");
+        alert(me.constructor == User);
+        User("Test");
+        alert(window.name == "Test");
+
+    </script>
+</body>
+</html>
