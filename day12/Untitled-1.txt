@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>客服</title>
+    <link href="__STATIC__/css/test.css" rel="stylesheet" />
+    <script src="__STATIC__/vue.js"></script>
+    <script src="__STATIC__/jquery-2.1.1.min.js"></script>
+</head>
+<body style="background-color:#f1f1f1;">
+    <div id="app">
+        <div >
+            <div v-for="(item,index) in msgList">
+                <!-- 单个消息1 客服发出（左） -->
+                <div class="container-left">
+                    <div class="left-box" >
+                        <img class="left-pic" src='__STATIC__/images/ke.jpg' />
+                    </div>
+                    <div class="left-icon" >
+                        <img  src='__STATIC__/images/left_msg.png' >
+                    </div>
+                    <div id="leftMsg" class='leftMsg'>优加平台欢迎您!请输入您的问题{{item.msg}}</div>
+                </div>
+                <div class="tag-box">
+                   <div class="tag"> 正在接入客服,请稍等 <span class="tag-in" @click="linkCusSer">客服接入</span></div>
+                </div>
+                <!-- 单个消息2 用户发出（右） -->
+                <div class="container-right" v-if="(item.type==2003)">
+                    <div class='rightMsg'>{{item.msg}}</div>
+                    <div class="right-box" >
+                        <img  src='__STATIC__/images/right_msg.png' >
+                    </div>
+                    <div class="right-icon" >
+                        <img class="right-icon-pic"  src="__STATIC__/images/pic.jpg">
+                    </div>
+                </div>
+            </div>
+            <div style='width: 100%; height: 18vw;'>
+                <div class="tag-box">
+                    <div class="tag"> 会话结束 <span class="tag-in" @click="release">释放</span></div>
+                </div>
+            </div>
+        </div>
+        <div class='inputRoom'>
+            <img class='input-pic'  src='__STATIC__/images/pic_icon.png'>
+            <input 
+                type="text"
+                v-model="message" 
+                @input="messageVal"
+                placeholder="请输入您的问题"
+                >
+            </input>
+            <button class='subBtn' type="primary" size="mini" @click="sendClickBtn">发送</button>
+        </div>     
+    </div>
+      <!-- 弹出确认框 -->
+      <!-- <div class="model-box" style="background:#FFFFFF;" v-if="modelShow">
+            324243534
+      </div> -->
+        <!--阴影遮罩层-->
+     <!-- <div class="mask" v-if="modelShow"></div>    -->
+
+<script type="text/javascript">
+    // 2.创建vue实例化对象
+    new Vue({
+        el: '#app',  
+        data:{       
+            msg: 'hello Vue',   
+            webSocket : null,
+            msgList:[
+                {
+                    type:2003,
+                    msg:'测试模板'
+                }
+            ],
+            client_id:'',
+            message:'',
+            modelShow:true
+        },
+
+        created(){
+            this.initSocket()
+        },
+
+        methods:{ 
+            initSocket() {
+                if (!"WebSocket" in window) {
+                    console.log("您的浏览器不支持 WebSocket!");
+                    return;
+                }
+                webSocket = new WebSocket("ws://"+document.domain+":8283");
+                webSocket.onopen = this.handleSend;
+                webSocket.onmessage = this.handleMessage;
+                webSocket.onclose = this.handleClose;
+                webSocket.onerror = this.handleError;
+            },
+        
+            // 向服务器端发送数据
+            handleSend(item) {
+                // Web Socket 已连接上，使用 send() 方法发送数据
+                // testing();
+                // console.log('1111111');
+                // webSocket.send(item);
+            },
+        
+            // 处理服务器端发送过来的数据
+            handleMessage(evt) {
+                var data = eval("("+evt.data+")");
+                //console.log(data);
+                if(data.type == "init"){
+                    //第一次连接成功，服务器返回消息
+                    console.log('连接成功,准备绑定uid;'+'客户端client_id：'+data.client_id);
+                    this.client_id = data.client_id;
+                    $.post('http://'+document.domain+'/gateway/bindUid', {client_id: data.client_id,uid:15240673546}, function(data){}, 'json');
+                }else{
+                    this.opercode = data.opercode;
+                    console.log(data);
+                    this.msg = data.msg
+                    //后续服务器发来的消息打印出来。
+                    console.log(this.msg );
+                    //遍历
+                    this.msgList.push({
+                        type:this.opercode ,
+                        msg:this.msg
+                    });
+                    console.log(this.msgList);
+
+                }
+            },
+        
+            // 处理连接关闭事件
+            handleClose() {
+                console.log("连接已关闭...");
+            },
+        
+            // 处理WebSocket错误
+            handleError() {
+                console.log("WebSocketError!");
+            },
+
+
+            //接口方法
+            //获取input输入的数据
+            messageVal(){
+                var message = this.message;
+                console.log(message)
+            },
+            //发送数据,判断是用户还是客服然后出发这个方法,发送消息
+            sendClickBtn(){
+                if(this.message == ''){
+                    console.log('消息不能为空');
+                }else{
+                    $.post('http://'+document.domain+'gateway/sendToClient',{
+                        client_id:this.client_id,message:this.message
+                    },function(res){
+                        console.log(res);
+                    })
+                }
+            },
+
+            //点击接入客服
+            linkCusSer(){
+                //调用接入客服的接口
+                $.post('url',{参数},function(res){
+                    console.log('接入成功!!')
+                })
+            },
+
+            //会话结束,释放
+            release(){
+                //调用释放接口
+                $.post('释放接口',{参数},function(res){
+                    console.log('释放成功');
+                })
+            }
+
+        }
+    })
+    
+</script>
+</body>
+</html>

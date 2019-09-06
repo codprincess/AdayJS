@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>将一个对象转换成数组对象</title>
+</head>
+<body>
+    <script>
+        function objToArr(obj) {
+                var arr = []
+                for (let i in obj) {
+                    let o = {};
+                    o[i] = obj[i];
+                    arr.push(o)
+
+                }
+                return arr;
+            }
+            let obj = { '未完成': 5, '已完成': 8, '待确认': 4, '已取消': 6 };
+
+            console.log(objToArr(obj));
+           
+    </script>
+    
+</body>
+</html>
