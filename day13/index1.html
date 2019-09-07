@@ -4,26 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>将一个对象转换成数组对象</title>
+    <title>将扁平数据处理成树形结构</title>
 </head>
 <body>
     <script>
-        function objToArr(obj) {
-                var arr = []
-                for (let i in obj) {
-                    let o = {};
-                    o[i] = obj[i];
-                    arr.push(o)
-
-                }
-                return arr;
-            }
-            let obj = { '未完成': 5, '已完成': 8, '待确认': 4, '已取消': 6 };
-
-            console.log(objToArr(obj));
-
-
-           function tree(data) {
+        function tree(data) {
                 let map = {};
                 let val = [];
                 //生成数据对象集合
@@ -42,7 +27,7 @@
                 })
                 return val;
             }
-           var data = [{
+            var data = [{
                 id: '1',
                 menu_name: '设置',
                 menu_url: 'setting',
@@ -100,16 +85,16 @@
             }
             ]
 
-            console.log('1111',tree(data));
+            console.log('1111', tree(data));
 
 
             function setTreeData(source) {
-                    let cloneData = JSON.parse(JSON.stringify(source))      // 对源数据深度克隆
-                    return cloneData.filter(father => {                      // 循环所有项，并添加children属性
-                        let branchArr = cloneData.filter(child => father.id == child.parentId);       // 返回每一项的子级数组
-                        branchArr.length > 0 ? father.children = branchArr : ''   //给父级添加一个children属性，并赋值
-                        return father.parentId == 0;      //返回第一层
-                    });
+                let cloneData = JSON.parse(JSON.stringify(source))      // 对源数据深度克隆
+                return cloneData.filter(father => {                      // 循环所有项，并添加children属性
+                    let branchArr = cloneData.filter(child => father.id == child.parentId);       // 返回每一项的子级数组
+                    branchArr.length > 0 ? father.children = branchArr : ''   //给父级添加一个children属性，并赋值
+                    return father.parentId == 0;      //返回第一层
+                });
             }
             let source = [
                 { id: 1, parentId: 0, name: "一级菜单A", rank: 1 },
