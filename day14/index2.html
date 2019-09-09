@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS实现单选、多选、全选、反选</title>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.0/jquery.js"></script>
+</head>
+<body>
+    <div>商品列表</div>
+    <input type="checkbox" name="item" value="3000" />笔记本3000元<br />
+    <input type="checkbox" name="item" value="2500" />HTC手机2500<br />
+    <input type="checkbox" name="item" value="8000" />苹果电脑8000<br />
+    <input type="checkbox" name="item" value="1500" />IPAD1500<br />
+    <input type="checkbox" name="item" value="400" />玩具汽车400<br />
+
+    <input type="checkbox" id="all1" name="all"/>全选<br />
+    <input type="checkbox" id="all2" name="all"/>反选<br />
+    <span>总金额：</span>
+    <span id="sumId"></span>
+
+    <script>
+        $(function () {
+            Buy();
+        })
+        function Buy(){
+            //遍历复选框
+            $("input[name=item]").each(function(){
+                $(this).click(function(){
+                    count();
+                    chooseAll();
+                })
+            })
+
+            //全选
+            $("#all1").click(function(){
+                $("input[name=item]").each(function(){
+                    $(this).attr("checked","checked");
+                })
+
+                $("#all2").attr("checked","");
+                count();
+            })
+
+            //反选
+            $("#all2").click(function () {
+                $("input[name=item]").each(function () {
+                    if (this.checked) {
+                        $(this).attr("checked", "")
+                    } else {
+                        $(this).attr("checked", "checked")
+                    }
+                    $("#all1").attr("checked", "");
+                    chooseAll();
+                    count();
+                })
+
+            })
+        }
+
+        //统计总金额
+        function count(){
+            var checked = $("input[name=item]:checked");
+            var all = $("input[name=item]");
+            var sum = 0 ;
+            for(var i=0;i<checked.length;i++){
+                sum += checked[i].value/1;
+            }
+
+            $("#sumId").html(sum + "元");
+        }
+
+        //判断是否为全选
+       function chooseAll() {
+            var checked = $("input[name=item]:checked");
+            var all = $("input[name=item]");
+            if (checked.length == all.length) {
+                $("#all1").attr("checked", "checked");
+                $("#all2").attr("checked", "");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <title>单选框,复选框,下拉菜单简单示例</title>
+</head>
+
+<body>
+    <p onclick="clickMe">单选框示例: (选择性别)</p>
+    <script>
+        function clickMe(){
+            alert(111111);
+        }
+    </script>
+    <!--单选框-->
+    男:<input id='radio_1' type='radio' value='男' name='test1' checked='checked' οnchange="demo1(id,value)" />
+    女:<input id='radio_2' type='radio' value='女' name='test1' οnchange="demo1(id,value)" />
+    <script type="text/javascript">
+        function demo1(id, value) {
+            alert('我的id是:' + id + '    我的性别是:' + value) //会打印出用户选中的单选框的id
+        }
+    </script>
+
+    <hr />
+    <p>多选框示例: (考试多选答案)</p>
+    <!--多选框-->
+    <form name="form1" method="post" action="">
+        <input type="checkbox" name="r" value="a">a.我是答案1<br>
+        <input type="checkbox" name="r" value="b">b.我是答案2<br>
+        <input type="checkbox" name="r" value="c">c.我是答案3<br>
+        <input type="checkbox" name="r" value="d">d.我是答案4<br>
+        <br>
+        <input type="button" οnclick="demo2()" value="提交答案">
+    </form>
+    <script language="javascript">
+        function demo2() {
+            var arr = [];
+            var r = document.getElementsByName("r");
+            for (var i = 0; i < r.length; i++) {
+                if (r[i].checked) {
+                    arr.push(r[i].value);
+                }
+            }
+            alert('我选择的答案是:' + arr)
+        }
+    </script>
+
+    <hr />
+    <p>下拉菜单示例: (选择优惠卷)</p>
+    <!--下拉菜单-->
+    <select class="" id="self_select" οnchange="demo3()">
+        <option>选择优惠券</option>
+        <foreach name="list" item="v">
+            <option value="优惠卷1">优惠卷1</option>
+            <option value="优惠卷2">优惠卷2</option>
+            <option value="优惠卷3">优惠卷3</option>
+        </foreach>
+    </select>
+    <script type="text/javascript">
+        //下拉框内容选择
+        function demo3() {
+            var city_area = $("#self_select").find("option:selected").val();
+            if (city_area == "选择优惠券") {
+                return false;
+            } else {
+                alert('用户下拉菜单选择的优惠卷为:' + city_area)
+            }
+        }
+    </script>
+</body>
+
+</html>

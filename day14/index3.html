@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.0/jquery.js"></script>
+    <title>JQuery实现全选、全不选和反选功能</title>
+        <script type="text/javascript">
+			$(function() {
+				$("#selectAll").click(function(){
+					$("#checkBoxList :checkbox").attr("checked", true);
+				});
+				$("#unSelect").click(function(){
+					$("#checkBoxList :checkbox").attr("checked", false);
+				});
+				$("#reverseSelect").click(function(){
+					$("#checkBoxList :checkbox").each(function(){
+						$(this).attr("checked", !$(this).attr("checked"));
+					});
+				});
+			});
+		</script>
+</head>
+<body>
+    <div id="checkBoxList">
+        <input type="checkbox" value="项羽" />项羽<br>
+        <input type="checkbox" value="范增" />范增<br>
+        <input type="checkbox" value="龙且" />龙且<br>
+        <input type="checkbox" value="刘邦" />刘邦<br>
+        <input type="checkbox" value="萧何" />萧何<br>
+        <input type="checkbox" value="韩信" />韩信<br>
+    </div>
+    <input type="checkbox" value="全选" id="selectAll" />全选
+    <input type="checkbox" value="全不选" id="unSelect" />全不选
+    <input type="checkbox" value="反选" id="reverseSelect" />反选
+</body>
+</html>
