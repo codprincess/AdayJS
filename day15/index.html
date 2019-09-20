@@ -4,15 +4,497 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>原生js实现购物车</title>
 </head>
 <body>
-    <script>
-      var a = "1,2, 3, 4, 5, 6, 7, 8, 9, 10, 54, 55, 56, 57, 59, 61, 62, 63";
-      var b = a.split(',').map(function(item){
-          return parseInt(item,10)
-      })
-      console.log('after',b)
+        <table id="cartTable">
+                <thead>
+                    <tr class="order_content">
+                        <th><input class="check_all check" type="checkbox"></input>&nbsp;全选</th>
+                        <th>商品</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+        
+                </thead>
+                <tbody>
+                    <tr class="order_content">
+                        <td class="check"><input class = "check_one check" type="checkbox"></input></td>
+                        <td class="goods"><img src="./imgs/apple6s.png"><span>Iphone 6S</span></td>
+                        <td class="price">5099.88</td>
+                        <td class="count">
+                            <span class="reduce">-</span>
+                            <input class="count_input" type="text" value="1"></input>
+                            <span class="add">+</span>
+                        </td>
+                        <td class="subtotle">5099.88</td>
+                        <td class="operation"><span class="delete">删除<span></td>
+                    </tr>
+                    <tr class="order_content">
+                        <td class="check"><input class = "check_one check" type="checkbox"></input></td>
+                        <td class="goods"><img src="./imgs/macbook.png"><span>MacBook Air</span></td>
+                        <td class="price">1099.99</td>
+                        <td class="count">
+                            <span class="reduce">-</span>
+                            <input class="count_input" type="text" value="1"></input>
+                            <span class="add">+</span>
+                        </td>
+                        <td class="subtotle">1099.99</td>
+                        <td class="operation"><span class="delete">删除<span></td>
+                    </tr>
+                    <tr class="order_content">
+                        <td class="check"><input class = "check_one check" type="checkbox"></input></td>
+                        <td class="goods"><img src="./imgs/ipadmini.png"><span>Ipad mini2 银16g WLAN7.9英寸</span></td>
+                        <td class="price">6599.00</td>
+                        <td class="count">
+                            <span class="reduce">-</span>
+                            <input class="count_input" type="text" value="1"></input>
+                            <span class="add">+</span>
+                        </td>
+                        <td class="subtotle">6599.00</td>
+                        <td class="operation"><span class="delete">删除<span></td>
+                    </tr>
+                    <tr>
+                        <td class="check"><input class = "check_one check" type="checkbox"></input></td>
+                        <td class="goods"><img src="./imgs/applewatch.png"><span>IWatch EXTS Min</span></td>
+                        <td class="price">9998.68</td>
+                        <td class="count">
+                            <span class="reduce">-</span>
+                            <input class="count_input" type="text" value="1"></input>
+                            <span class="add">+</span>
+                        </td>
+                        <td class="subtotle">9998.68</td>
+                        <td class="operation"><span class="delete">删除<span></td>
+                    </tr>
+                </tbody>
+        
+            </table>
+            <div class="slected view">
+                    <div id="selectedViewList" class="clearfix">
+                        <!-- <div><img src="./imgs/applewatch.png"><span>取消选择</span></div> -->
+                    </div>
+        
+                    <span class="arrow">.<span>.</span></span>
+        
+            </div>
+            <div id = "footer" class="footer">      
+                <label class="fl select_all" ><input class="check_all check" type="checkbox">&nbsp;全选</input></label>
+                <a class="fl delete_all" id="deleteAll" href="javascript:;">删除</a>
+                <div class="fr closing">结算</div>
+                <div class="fr selected_totle">合计：￥ <span id="priceTotle">0.00</span> </div>
+                <div class="fr selectAll" id="selected">已购商品
+                    <span id = "selectTotle">0</span>件
+                    <span class="arow up">+++</span>
+                    <span class="arow  down">---</span>
+                </div>
+        
+        
+            </div>
+
+<script>
+    window.onload = function(){
+    //低版本的IE浏览器不支持getElementByClassName方法，考虑兼容性,重写方法。
+    if (!document.getElementByClassName) {
+        document.getElementByClassName =function(cls){
+            var ret = [];
+            var clsElments = document.getElementsByTagName('*');
+            for (var i = 0, len = clsElments.length; i < len; i++) {
+                //考虑一个标签有多个class的情况,这里用正则表达式会好一点
+                if (clsElments[i].className == cls 
+                    || (clsElments[i].className.indexOf(cls + " ") >= 0)
+                    || (clsElments[i].className.indexOf(" " + cls + " ") >= 0)
+                    || (clsElments[i].className.indexOf(" " + cls) >= 0)) 
+                {
+                    ret.push(clsElments[i]);
+                }
+            }
+            return ret;
+        }
+
+    }
+
+    var cartTable = document.getElementById("cartTable");
+    var tr = cartTable.children[1].rows;  //table标签特有的属性，rows可以获得表格元素的所有tr行。
+    var checkInput = document.getElementByClassName('check');//获得所有的单选框
+    var checkAllInput = document.getElementByClassName('check_all');//获得所有的单选框
+    var priceTotle = document.getElementById("priceTotle");//总价
+    var selectTotle = document.getElementById("selectTotle");//已选商品
+    var selected = document.getElementById("selected");
+    var footer = document.getElementById("footer");//底部标签
+    var selectedViewList = document.getElementById("selectedViewList");//底部标签
+    var deleteAll = document.getElementById("deleteAll");
+
+
+
+    //计算总价格和数量
+    function getTotle(){
+        var selectNum = 0;//数量
+        var priceNum = 0;//价格
+        var HTMLstr = ""; //缩略图的字符串拼接
+        for (var i = 0,len = tr.length; i < len; i++) {
+            if (tr[i].getElementsByTagName("input")[0].checked) {
+                tr[i].className ="on";
+                selectNum += parseInt(tr[i].getElementsByTagName("input")[1].value);
+                priceNum += parseFloat(tr[i].cells[4].innerHTML);
+
+
+                //拼接字符串显示已经选择的商品 
+                HTMLstr += '<div><img src="'+ tr[i].getElementsByTagName('img')[0].src +'"><span class ="del" index ="'+ i +'">取消选择</span></div>';
+
+            }
+            else{
+                tr[i].className = "";
+            }
+        }
+        selectTotle.innerHTML = selectNum;
+        priceTotle.innerHTML = priceNum.toFixed(2);//保留两位小数
+        selectedViewList.innerHTML = HTMLstr;
+    }
+
+    //计算小计价格
+    function getSubTotle(tr){
+        var tds = tr.cells;
+        var price = parseFloat(tds[2].innerHTML);
+        var num = parseInt(tr.getElementsByTagName("input")[1].value);
+        var subTotle = parseFloat(price * num).toFixed(2);
+        tds[4].innerHTML = subTotle;
+    }
+
+    //复选框绑定单击事件
+    for (var i = 0, len = checkInput.length; i < len; i++){
+        checkInput[i].onclick =function (){
+            //判断全选按钮，变更
+            if (this.className == "check_all check") {
+                for (var j = 0; j < len; j++){
+                    checkInput[j].checked = this.checked;
+                }
+            }
+            if (this.checked == false) {
+                for (var k = 0,len2 = checkAllInput.length; k < len2; k++){
+                    checkAllInput[k].checked = false;
+                }
+            }
+            getTotle();
+        }
+    }
+
+
+
+    //控制底部标签的显示
+    selected.onclick = function(){
+        if (footer.className == "footer") {
+            footer.className == "footer show";
+        } else {
+            footer.className == "footer";   
+        }
+    }
+
+
+    //图片缩略图的取消选择按钮功能,e为事件对象
+    selectedViewList.onclick = function(e){
+        //兼容低版本的IE
+/*      if (e){
+            e = e;
+        }else{
+            e = window.event;
+        } */
+        var e = e || window.event;
+        var el = e.srcElement;
+        if (el.className == "del") {
+            var index = el.getAttribute("index");
+            var input = tr[index].getElementsByTagName("input")[0];
+            input.checked = false;
+            input.onclick();
+        }
+    }
+
+    //实现加减、删除操作。同样用事件代理的方法实现
+    for (var i = 0, len3 = tr.length; i < len3; i++){
+        tr[i].onclick = function(e){
+            var e = e || window.event;
+            var el = e.srcElement;
+            var clsName = el.className;
+            var input = this.getElementsByTagName("input")[1];
+            var inputValue = parseInt(input.value);
+            var reduce = this.getElementsByTagName("span")[1];
+            switch (clsName){
+                case "add":
+                    /*parseInt(inputValue) ++;*/
+                    input.value = inputValue + 1;
+                    reduce.innerHTML ="-";
+                    getSubTotle(this);
+                    break;
+                case "reduce":
+                    if(inputValue >= 1){
+                        input.value = inputValue - 1;
+                    }else{
+                        reduce.innerHTML ="";
+                    }
+                    getSubTotle(this);                  
+                    break;
+                case "delete":
+                    var conf = confirm("确定删除这个商品？");
+                    if (conf) {
+                        this.parentNode.removeChild(this);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            getTotle();
+        }
+        //处理从手动输入商品数量
+        tr[i].getElementsByTagName("input")[1].onkeyup = function(){
+            var val = this.value;
+            var tr = this.parentNode.parentNode;
+            if (isNaN(val) || val < 0 ) {
+                val = 1;
+            }
+            this.value = val;
+            getSubTotle(tr);
+        }
+    }
+
+    //全选删除
+    deleteAll.onclick = function(){
+        if (selectTotle.innerHTML !="0") {
+            var conf = confirm("确定删除这些商品？");
+            if (conf) {
+                for (var i = 0, len = tr.length; i < len; i++) {
+                    var input = tr[i].getElementsByTagName("input")[0];
+                    if(input.checked){
+                        tr[i].parentNode.removeChild(tr[i]);
+                    }
+                }
+            }
+        }       
+    }
+}
+
+
     </script>
+
+    <style>
+        *{
+        margin: 0;
+        padding: 0;
+        }
+        a{
+        color: #666;
+        text-decoration: none;
+        }
+        body{
+        padding:20px;
+        color: #666;
+        }
+        .fl{
+        float: left;
+        }
+        .fr{
+        float: right;
+        }
+        table{
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 0;
+        text-align: center;
+        width: 937px;
+        }
+        th,td{
+        border: 1px solid #cadeff;
+        }
+        th{
+        background: #e2f2ff;
+        border-top: 3px solid #a7cbff;
+        height: 30px;
+        }
+        td{
+        padding: 10px;
+        color: #444;
+        }
+        tbody tr:hover{
+        background: RGB(238,246,255);
+        }
+        .checkbox{width: 60px;}
+        .goods{width: 300px;}
+        .goods span{
+        width: 180px;
+        margin-top: 20px;
+        text-align: left;
+        float: left;
+        }
+        .price{width: 130px;}
+        .count{width: 90px;}
+        .count .add, .count input, .count .reduce{
+        float: left;
+        margin-left: -1px;
+        position: relative;
+        z-index: 0;
+        }
+        .count .add, .count .reduce{
+        height: 23px;
+        width: 17px;
+        border: 1px solid #e5e5e5;
+        background: #f0f0f0;
+        text-align: center;
+        line-height: 23px;
+        color: #444;
+        }
+        .count .add:hover, .count .reduce:hover{
+        color: #f50;
+        z-index: 3;
+        border-color: #f60;
+        cursor: pointer;
+        }
+        .count input{
+        width: 50px;
+        height: 15px;
+        line-height: 15px;
+        border: 1px solid #aaa;
+        color: #343434;
+        text-align: center;
+        padding: 4px 0;
+        background-color: #fff;
+        z-index: 2;
+        }
+        .subtotal{
+        width: 150px;
+        color: red;
+        font-weight: bold;
+        }
+        .operation{width: 80px;}
+        .operation span:hover, .a:hover{
+        cursor: pointer;
+        color: red;
+        text-decoration: underline;
+        }
+        img{
+        width: 100px;
+        height: 80px;
+        margin-right: 10px;
+        float: left;
+        }
+        .foot{
+        width: 935px;
+        margin-top: 10px;
+        color: #666;
+        height: 48px;
+        border: 1px solid #c8c8c8;
+        background-image: linear-gradient(RGB(241,241,241),RGB(226,226,226));
+        position: relative;
+        z-index: 8;
+        }
+        .foot div, .foot a{
+        line-height: 48px;
+        height: 48px;
+        }
+        .foot .select-all{
+        width: 100px;
+        height: 48px;
+        line-height: 48px;
+        padding-left: 5px;
+        color: #666;
+        }
+        .foot .closing{
+        border-left: 1px solid #c8c8c8;
+        width: 100px;
+        text-align: center;
+        color: #000;
+        font-weight: bold;
+        background: RGB(238,238,238);
+        cursor: pointer;
+        }
+        .foot .total{
+        margin: 0 20px;
+        cursor: pointer;
+        }
+        .foot #priceTotal, .foot #selectedTotal{
+        color: red;
+        font-family: "微软雅黑";
+        font-weight: bold;
+        }
+        .foot .select{
+        cursor: pointer;
+        }
+        .foot .select .arrow{
+        position: relative;
+        top: -3px;
+        margin-left: 3px;
+        }
+        .foot .select .down{
+        position: relative;
+        top: 3px;
+        display: none;
+        }
+        .show .select .down{
+        display: inline;
+        }
+        .show .select .up{
+        display: none;
+        }
+        .foot .select:hover .arrow{
+        color: red;
+        }
+        .foot .selected-view{
+        width: 935px;
+        border: 1px solid #c8c8c8;
+        position: absolute;
+        height: auto;
+        background: #fff;
+        z-index: 9;
+        bottom: 48px;
+        left: -1px;
+        display: none;
+        }
+        .show .selected-view{display: block;}
+        .foot .selected-view div{height: auto;}
+        .foot .selected-view .arrow{
+        font-size: 16px;
+        line-height: 100%;
+        color: #c8c8c8;
+        position: absolute;
+        right: 330px;
+        bottom: -9px;
+        }
+        .foot .selected-view .arrow span{
+        color: #fff;
+        position: absolute;
+        left: 0;
+        bottom: 1px;
+        }
+        #selectedViewList{
+        padding: 20px;
+        margin-bottom: -20px;
+        }
+        #selectedViewList div{
+        display: inline-block;
+        position: relative;
+        width: 100px;
+        height: 80px;
+        border: 1px solid #ccc;
+        margin: 10px;
+        }
+        #selectedViewList div span{
+        display: none;
+        color: #fff;
+        font-size: 12px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        background: RGBA(0,0,0,.5);
+        cursor: pointer;
+        }
+        #selectedViewList div:hover span{
+        display: block;
+        }
+    
+    </style>
+
 </body>
 </html>
