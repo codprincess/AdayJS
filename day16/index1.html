@@ -13,8 +13,12 @@
         var len = imgs.length;
         for (var i = 0;i<len;i++){
             var img = imgs[i];
-            img.setAttribute('')
+            img.setAttribute('src',img.getAttribute('data-src'))
         }
+
+        //如果是字符串,使用正则全局匹配
+        var str = "html字符串内容";
+        str = str.replace(/data-(src)/g,'$1')
     </script>
 </body>
 </html>
