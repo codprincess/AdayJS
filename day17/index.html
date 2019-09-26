@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js算法题</title>
+</head>
+<body>
+    <script>
+        //1.["1", "2", "3"].map(parseInt)输出的结果
+        var a = ["1", "2", "3"]
+        console.log(a.map(parseInt));//[1, NaN, NaN]
+        //2.[typeof null, null instanceof Object]
+        console.log(typeof(null)) //object
+        console.log(null instanceof Object)//false
+        //["object", false]
+        //typeof用以获取一个变量或者表达式的类型，typeof一般只能返回如下几个结果：
+        // number, boolean, string, function（函数）, object（NULL, 数组，对象）, undefined。
+
+        //3.[ [3,2,1].reduce(Math.pow), [].reduce(Math.pow) ]
+        console.log([3, 2, 1].reduce(Math.pow));
+        //console.log([].reduce(Math.pow)) //would result in TypeError
+        //报错
+        
+        //4.var val = 'smtg'; console.log('Value is ' + (val === 'smtg') ? 'Something' : 'Nothing');
+        var val = 'smtg';
+        console.log('Value is ' + (val === 'smtg') ? 'Something' : 'Nothing');
+        //Something
+        //运算符的优先级高于三元运算符
+
+        //5.
+        var name = 'World!';
+        //console.log(typeof(name));//string
+        (function () {
+            // var name = 'World!';
+            if (typeof name === 'undefined') {
+                var name = 'Jack';
+                console.log('Goodbye ' + name);
+            } else {
+                console.log('Hello ' + name);
+            }
+        })();
+        //output: Goodbye Jack
+        //js生命提前,如果生命放在函数里面结果反之亦然
+        //6.
+        // var END = Math.pow(2, 53);
+        // var START = END - 100;
+        // var count = 0;
+        // for (var i = START; i <= END; i++) {
+        //     count++;
+        // }
+        // console.log(count);
+        var END = Math.pow(2, 53);
+        var START = END - 100;
+        console.log("(START,END,END+1) = " + START + ", " + END + "," + (END + 1));
+        console.log('END == (END+1) is ' + (END == (END + 1))); // TRUE, interestingly
+        
+        //7.
+        var ary = [0, 1, 2];
+        ary[10] = 10;
+        ary.filter(function (x) { return x === undefined; });
+        //filter会接触到没有被赋值的元素，即在arr中，长度为10但实际数值元素列表为[0, 1, 2, 10]，因此，最终返回一个空的数组[]
+            
+        //8.
+        var two = 0.2
+        var one = 0.1
+        var eight = 0.8
+        var six = 0.6
+        [two - one == one, eight - six == two]
+        console.log([two - one == one, eight - six == two])// [true, false]
+       
+        //两个浮点数相加或者相减，将会导致一定的正常的数据转换造成的精度丢失问题eight-six = 0.20000000000000007。 JavaScript中的小数采用的是双精度(64位)表示的，由三部分组成：　符 + 阶码 + 尾数，在十进制中的 1/10，在十进制中可以简单写为 0.1 ，但在二进制中，他得写成：0.0001100110011001100110011001100110011001100110011001…..（后面全是 1001 循环）。因为浮点数只有52位有效数字，从第53位开始，就舍入了。这样就造成了“浮点数精度损失”问题。
+
+        // 更严谨的做法是(eight - six).totoFiexd(1)或者用用Math.round方法回归整数运算。判断两个浮点数是否相等，还是建议用逼近的比较，比如if((a - b) < 1E-10)
+
+        // 值得注意的是，0.2 - 0.1却是 == 0.1的。
+
+        //9.
+        function showCase(value) {
+                switch (value) {
+                    case 'A':
+                        console.log('Case A');
+                        break;
+                    case 'B':
+                        console.log('Case B');
+                        break;
+                    case undefined:
+                        console.log('undefined');
+                        break;
+                    default:
+                        console.log('Do not know!');
+                }
+            }
+            showCase(new String('A'));
+            //使用new String()使用构造函数调用讲一个全新的对象作为this变量的值，并且隐式返回这个新对象作为调用的结果，因此showCase()接收的参数为String {0: "A"}为不是我们所认为的“A”
+
+             // 但是，其实显然，此时的new String('A') == 'A'; 虽然new出来的是个String对象。
+
+            //10.
+            function showCase2(value) {
+                    switch (value) {
+                        case 'A':
+                            console.log('Case A');
+                            break;
+                        case 'B':
+                            console.log('Case B');
+                            break;
+                        case undefined:
+                            console.log('undefined');
+                            break;
+                        default:
+                            console.log('Do not know!');
+                    }
+                }
+                showCase2(String('A'));
+                //唯一的字符串在内存中有一个唯一的实例,所以是Case A
+    </script>
+</body>
+</html>
