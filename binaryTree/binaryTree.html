@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Binary Tree</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function BinaryTree(){
+            //定义节点
+            var Node = function(key){
+                this.key = key;
+                this.left = null;
+                this.right = null;
+            };
+            //定义根节点
+            var root = null;
+            //判断左右节点
+            var insertNode = function(node,newNode){
+                if(newNode.key < node.key){
+                    if(node.left === null){
+                        node.left = newNode;
+                    }else{
+                        insertNode(node.left,newNode);
+                    }
+                }else{
+                    if(node.right === null){
+                        node.right = newNode;
+                    }else{
+                        insertNode(node.right,newNode);
+                    }
+                }
+            }
+            //插入节点
+            this.insert = function(key){
+                var newNode = new Node(key);
+                if(root === null){
+                    root = newNode;
+                }else{
+                    insertNode(root,newNode);
+                }
+            }
+        }
+
+        //构造节点
+        var nodes = [8,3,10,1,6,14,4,7,13];
+        var binaryTree = new BinaryTree();
+        nodes.forEach(function(key){
+            binaryTree.insert(key);
+        });
+
+    </script>
+</body>
+</html>
