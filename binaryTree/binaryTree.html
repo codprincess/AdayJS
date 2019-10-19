@@ -32,7 +32,7 @@
                         insertNode(node.right,newNode);
                     }
                 }
-            }
+            };
             //插入节点
             this.insert = function(key){
                 var newNode = new Node(key);
@@ -41,8 +41,46 @@
                 }else{
                     insertNode(root,newNode);
                 }
+            };
+            var inOrderTraverseNode = function(node,callback){
+                if(node !== null){
+                    inOrderTraverseNode(node.left,callback);
+                    //判断完左子节点之后当前节点的key值
+                    callback(node.key);
+                    inOrderTraverseNode(node.right,callback);
+                }
             }
-        }
+            //中序遍历:左中右
+            this.inOrderTraverse = function(callback){
+                inOrderTraverseNode(root,callback);
+            }
+
+            var preOrderTraverseNode = function(node,callback){
+                if(node !== null){
+                    //进入当前节点时打印
+                    callback(node.key);
+                    preOrderTraverseNode(node.left,callback);
+                    preOrderTraverseNode(node.right,callback);
+                }
+            }
+            //前序遍历:中左右，中间的最先遍历
+            this.preOrderTraverse = function(callback){
+                preOrderTraverseNode(root,callback);
+            }
+
+            var postOrderTraverseNode = function(node,callback){
+                if(node !== null){
+                    postOrderTraverseNode(node.left,callback);
+                    postOrderTraverseNode(node.right,callback);
+                    callback(node.key);
+                }
+            }
+
+            //后序遍历:从下到上,从左到右到中
+            this.postOrderTraverse = function(callback){
+                postOrderTraverseNode(root,callback);
+            }
+        };
 
         //构造节点
         var nodes = [8,3,10,1,6,14,4,7,13];
@@ -50,6 +88,16 @@
         nodes.forEach(function(key){
             binaryTree.insert(key);
         });
+
+        var callback = function(key){
+            console.log(key)
+        }
+        //中序
+        //binaryTree.inOrderTraverse(callback);//1,3,4,6,7,8,10,13,14
+        //前序
+        //binaryTree.preOrderTraverse(callback);//8,3,1,6,4,7,10,14,13
+        //后续
+        binaryTree.postOrderTraverse(callback);//1,4,7,6,3,13,14,10,8
 
     </script>
 </body>
