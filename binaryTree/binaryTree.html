@@ -80,6 +80,95 @@
             this.postOrderTraverse = function(callback){
                 postOrderTraverseNode(root,callback);
             }
+
+            var minNode = function(node){
+                if(node){
+                    while(node && node.left !== null){
+                        node = node.left;
+                    }
+                    return node.key;
+                }
+                return null;
+            }
+            //查找节点(最小值)
+            this.min = function(){
+                return minNode(root);
+            }
+
+            var maxNode = function(node){
+                if(node){
+                    while(node && node.right !== null){
+                        node = node.right;
+                    }
+                    return node.key;
+                }
+                return null;
+            }
+            //查找最大值
+            this.max = function(){
+                return maxNode(root);
+            }
+
+            var searchNode = function(node,key){
+                if(node === null){
+                    return false;
+                }
+                if(key < node.key){
+                    return searchNode(node.left,key);
+                }else if(key>node.key){
+                    return searchNode(node.right,key);
+                }else{
+                    return true;
+                }
+            }
+            //查找节点指定值
+            this.search = function(key){
+                return searchNode(root,key);
+            }
+
+            //删除有左右节点的
+            var findMinNode = function(node){
+                if(node){
+                    while(node && node.left !== null){
+                        node = node.left;
+                    }
+                    return node;
+                }
+                return null;
+            }
+            var removeNode = function(node,key){
+                if(node === null){
+                    return null;
+                }
+                if(key < node.key){
+                    node.left = removeNode(node.left,key);
+                    return node;
+                }else if(key > node.key){
+                    node.right = removeNode(node.right,key);
+                    return node;
+                }else{
+                    if(node.left === null && node.right === null){
+                        node = null;
+                        return node;
+                    }
+                    if(node.left ===null){
+                        node = node.right;
+                        return node;
+                    }else if(node.right === null){
+                        node = node.left;
+                    }
+                    //有左右节点
+                    var mnode = findMinNode(node.right);
+                    node.key = mnode.key;
+                    //重置到右节点
+                    node.right = removeNode(node.right,mnode.key)
+                }
+
+            }
+            //删除节点
+            this.remove = function(key){
+                return removeNode(root,key)
+            }
         };
 
         //构造节点
@@ -97,8 +186,14 @@
         //前序
         //binaryTree.preOrderTraverse(callback);//8,3,1,6,4,7,10,14,13
         //后续
-        binaryTree.postOrderTraverse(callback);//1,4,7,6,3,13,14,10,8
-
+        //binaryTree.postOrderTraverse(callback);//1,4,7,6,3,13,14,10,8
+        //最小值
+        //console.log(binaryTree.min());
+        //最大值
+        // console.log(binaryTree.max());
+        // console.log(binaryTree.search(8)?'key 8 is found':'not find');
+        // console.log(binaryTree.search(9)?'find':'not find');
+        binaryTree.remove(10)
     </script>
 </body>
 </html>
