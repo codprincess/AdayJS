@@ -92,7 +92,72 @@
             return res;
         };
         var nums2 = [-1, 0, 1, 2, -1, -4];
-            console.log(threeSum(nums2))
+        console.log(threeSum(nums2))
+    </script>
+    <!--对闭包的理解-->
+    <!-- 闭包就是一个函数，两个函数彼此嵌套，
+    内部函数就是闭包形成闭包条件是内部函数需要通过return给返回出来。 -->
+    <script>
+        function f1(){
+            function f2(){
+                alert("我是js闭包");
+            }
+            return f2;
+        }
+        var f = f1();
+        f();
+        
+
+    </script>
+    <script>
+        //闭包特点
+        //闭包有权利调用其上级环境的变量信息。父级环境的信息已经固化为本身AO的成员了
+         function f1() {
+                var bb = "闭包";
+                function f2() {
+                    alert('我是' + bb);
+                }
+                return f2;
+            }
+            var f = f1();
+            f();  //弹出：我是js闭包
+    </script>
+
+    <script>
+        //同一个闭包机制可以创建多个闭包函数出来，它们彼此没有联系，都是独立的。
+        //并且每个闭包函数可以保存自己个性化的信息。
+        //看下代码，理解下三个闭包彼此独立、没有联系：
+        function f1(num) {
+                function f2() {
+                    alert('数字:' + num);
+                }
+                return f2;
+            }
+            var fa = f1(10);
+            var fb = f1(20);
+            var fc = f1(30);
+            fa();   //数字:10
+            fb();   //数字:20
+            fc();   //数字:30
+    </script>
+    <script>
+         //创建数组元素
+            var num = new Array();
+            for (var i = 0; i < 4; i++) {
+                //num[i] = 闭包;//闭包被调用了4次，就会生成4个独立的函数
+                //每个函数内部有自己可以访问的个性化(差异)的信息
+                num[i] = f1(i);
+            }
+            function f1(n) {
+                function f2() {
+                    alert(n);
+                }
+                return f2;
+            }
+            num[2]();  //2
+            num[1]();  //1
+            num[0]();  //0
+            num[3]();  //3
     </script>
 </body>
 </html>
