@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>面试题</title>
+</head>
+<body>
+    <p id="textp"></p>
+    猫:
+    <input name="x" type="radio" value="猫">
+    狗:
+    <input name="y" type="radio" value="狗">
+    <input type="button" onclick="getElements()" value="多少名称为 'x'的元素?">
+   
+    <!--合并两个数组-->
+    <script>
+         let a = [1,2,3,4];
+         let b = [5,6,7,8,9];
+         //法一concat
+         let c = a.concat(b);
+         document.getElementById('textp').innerHTML = c;
+         //document.getElementsByTagName("p")[0].innerHTML = c;
+         //法二 for
+         for(var i in b){
+             a.push(b[i]);
+         }
+        console.log(a);
+        //法三 apply
+        a.push.apply(a, b);
+        console.log('...',a);
+        
+
+    </script>
+    <!-- getElementsByName -->
+    <script>
+        function getElements() {
+            var x = document.getElementsByName("x");
+            alert(x.length);
+        }
+    </script>
+
+</body>
+</html>
