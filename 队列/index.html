@@ -17,6 +17,9 @@
             Queue.prototype.enqueue = function(element){
                 this.item.push(element)
             }
+            Queue.prototype.dequeue = function(){
+                return this.item.shift()
+            }
             //2.从队列中删除前端数据
             Queue.prototype.front = function(){
                 return this.item[0]
@@ -39,18 +42,54 @@
             }
 
         }
-        //使用队列
-        var queue = new Queue()
-        //将元素加入队列中
-        queue.enqueue('1')
-        queue.enqueue('2')
-        queue.enqueue('3')
-        queue.enqueue('4')
-        queue.enqueue('5')
-        alert(queue)
-        //从队列中删除
-        // queue.dequeue('5')
-        //alert(queue)
+        // // //使用队列
+        // var queue = new Queue()
+        // //将元素加入队列中
+        // queue.enqueue('a')
+        // queue.enqueue('b')
+        // queue.enqueue('c')
+        // queue.enqueue('d')
+        // queue.enqueue('e')
+        // alert(queue)
+        // queue.dequeue()
+        // alert(queue)
+        // queue.dequeue()
+        // alert(queue)
+        // //从队列中删除
+        // // queue.dequeue('5')
+        // //alert(queue)
+        // alert(queue.front())
+        // alert(queue.isEmpty())
+        // alert(queue.size())
+
+        //列子,击鼓传花
+        function passGame(nameList,num){
+            //1.创建一个队列结构
+            var queue = new Queue();
+            //2.将所有人一次加入队列中
+            for(var i=0;i<nameList.length;i++){
+                queue.enqueue(nameList[i])
+            }
+            //3.开始数数
+            while(queue.size()>1){
+                //不是num的时候加到队列末尾
+                //是num将其从队列中删除
+                for(var i = 0;i<num-1;i++){
+                    queue.enqueue(queue.dequeue())
+                }
+                //num对应的人直接删除
+                queue.dequeue()
+            }
+            //获取剩下的那些人
+            alert(queue.size())
+            var endName = queue.front()
+            alert(endName)
+            return nameList.indexOf(endName)
+        }
+
+        var names = ['lili','daming','lilei','xiaowang','xiaohong']
+        alert(passGame(names,5))
+
 
     </script>
 </body>
