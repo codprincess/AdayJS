@@ -53,12 +53,30 @@
             this.items = []
             //实现插入方法
             PriorotyQueue.prototype.enqueue = function(element,priority){
-                //创建对象
+                //1.创建对象
                 var queueElement = new QueueElement(element,priority)
+                //2.判断队列是否为空
+                if(this.items.length == 0){
+                    this.items.push(queueElement)
+                }else{
+                    var added = false
+                    for(var i=0;i<this.items.length;i++){
+                        if(queueElement.priority<this.items[i].priority){
+                            this.items.splice(i,0,queueElement)
+                            added = true
+                            break
+                        }
+                    }
+                    if(!added){
+                        this.items.push(queueElement)
+                    }
+                }
             }
         }
 
         //测试代码
+        var pq = new PriorotyQueue()
+        
     </script>
 </body>
 </html>
