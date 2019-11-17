@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>面试题</title>
+</head>
+<body>
+    <p id="textp"></p>
+    猫:
+    <input name="x" type="radio" value="猫">
+    狗:
+    <input name="y" type="radio" value="狗">
+    <input type="button" onclick="getElements()" value="多少名称为 'x'的元素?">
+   
+    <!--合并两个数组-->
+    <script>
+         let a = [1,2,3,4];
+         let b = [5,6,7,8,9];
+         //法一concat
+         let c = a.concat(b);
+         document.getElementById('textp').innerHTML = c;
+         //document.getElementsByTagName("p")[0].innerHTML = c;
+         //法二 for
+         for(var i in b){
+             a.push(b[i]);
+         }
+        console.log(a);
+        //法三 apply
+        a.push.apply(a, b);
+        console.log('...',a);
+        
+
+    </script>
+    <!-- getElementsByName -->
+    <script>
+        function getElements() {
+            var x = document.getElementsByName("x");
+            alert(x.length);
+        }
+    </script>
+    <!--JS算法题之三数之和-->
+    <!-- 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
+    使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。 -->
+    <!-- 这题我们采用排序+双指针的思路来做，遍历排序后的数组，定义指针l和r,
+    分别从当前遍历元素的下一个元素和数组的最后一个元素往中间靠拢，
+    计算结果跟目标对比。 -->
+   
+    <script>
+    var threeSum = function (nums) {
+            if (nums.length < 3) {
+                return [];
+            }
+
+            let res = [];
+            // 排序
+            nums.sort((a, b) => a - b);
+            for (let i = 0; i < nums.length; i++) {
+                if (i > 0 && nums[i] == nums[i - 1]) {
+                    // 去重
+                    continue;
+                }
+                if (nums[i] > 0) {
+                    // 若当前元素大于0，则三元素相加之后必定大于0
+                    break;
+                }
+                // l为左下标，r为右下标
+                let l = i + 1; r = nums.length - 1;
+                while (l < r) {
+                    let sum = nums[i] + nums[l] + nums[r];
+                    if (sum == 0) {
+                        res.push([nums[i], nums[l], nums[r]]);
+                        while (l < r && nums[l] == nums[l + 1]) {
+                            l++
+                        }
+                        while (l < r && nums[r] == nums[r - 1]) {
+                            r--;
+                        }
+                        l++;
+                        r--;
+                    }
+                    else if (sum < 0) {
+                        l++;
+                    }
+                    else if (sum > 0) {
+                        r--;
+                    }
+                }
+            }
+
+            return res;
+        };
+        var nums2 = [-1, 0, 1, 2, -1, -4];
+        console.log(threeSum(nums2))
+    </script>
+    <!--对闭包的理解-->
+    <!-- 闭包就是一个函数，两个函数彼此嵌套，
+    内部函数就是闭包形成闭包条件是内部函数需要通过return给返回出来。 -->
+    <script>
+        function f1(){
+            function f2(){
+                alert("我是js闭包");
+            }
+            return f2;
+        }
+        var f = f1();
+        f();
+        
+
+    </script>
+    <script>
+        //闭包特点
+        //闭包有权利调用其上级环境的变量信息。父级环境的信息已经固化为本身AO的成员了
+         function f1() {
+                var bb = "闭包";
+                function f2() {
+                    alert('我是' + bb);
+                }
+                return f2;
+            }
+            var f = f1();
+            f();  //弹出：我是js闭包
+    </script>
+
+    <script>
+        //同一个闭包机制可以创建多个闭包函数出来，它们彼此没有联系，都是独立的。
+        //并且每个闭包函数可以保存自己个性化的信息。
+        //看下代码，理解下三个闭包彼此独立、没有联系：
+        function f1(num) {
+                function f2() {
+                    alert('数字:' + num);
+                }
+                return f2;
+            }
+            var fa = f1(10);
+            var fb = f1(20);
+            var fc = f1(30);
+            fa();   //数字:10
+            fb();   //数字:20
+            fc();   //数字:30
+    </script>
+    <script>
+         //创建数组元素
+            var num = new Array();
+            for (var i = 0; i < 4; i++) {
+                //num[i] = 闭包;//闭包被调用了4次，就会生成4个独立的函数
+                //每个函数内部有自己可以访问的个性化(差异)的信息
+                num[i] = f1(i);
+            }
+            function f1(n) {
+                function f2() {
+                    alert(n);
+                }
+                return f2;
+            }
+            num[2]();  //2
+            num[1]();  //1
+            num[0]();  //0
+            num[3]();  //3
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML5 Canvas（canvas绘制线条、矩形、多边形、圆、自定义图像）</title>
+</head>
+<body>
+    <div style="border:1px #000 solid ;height: 100px;width: 200px;">
+        <canvas id="myCanvas" width="400" height="300"></canvas>
+    </div>
+    
+</body>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var context = canvas.getContext("2d");
+    //填充颜色
+    // context.fillStyle = '#FF0000';
+    // context.fillRect(50, 50, 150, 100);
+    //对角线
+    // context.strokeStyle = "#ff0000";     
+    // context.moveTo(0, 0);
+    // context.lineTo(200, 100);
+    // context.stroke();   
+
+    //绘制直角三角形
+    context.strokeStyle = "#ff0000";
+    // context.lineTo(20,20)
+    // context.lineTo(20,70)
+    // context.lineTo(70,70)
+    // context.lineTo(20,20)
+    // context.stroke();
+
+    //圆形
+    context.fillStyle = "#0000ff";//填充
+
+    context.beginPath();
+    context.arc(50, 50, 30, 0, 2 * Math.PI, true);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    
+
+</script>
+<script>
+    //同心圆
+    function demo3(id) {
+            var canvas = document.getElementById(id);
+            var context = canvas.getContext("2d");
+            //外圆
+            context.fillStyle = "#0000ff";
+            context.strokeStyle = "#ff0000";
+            context.beginPath();
+            context.arc(50, 50, 40, 0, 2 * Math.PI, true);
+            context.closePath();
+            context.stroke();
+            context.fill();
+            //内圆
+            context.fillStyle = "pink";
+            context.beginPath();
+            context.arc(50, 50, 20, 0, 2 * Math.PI, true);
+            context.closePath();
+            context.fill();
+        }
+</script>
+<script>
+    //绘制路径
+    function demo4(id) {
+        var canvas = document.getElementById(id);
+        var context = canvas.getContext("2d");
+        // 填充
+        context.beginPath();
+        context.arc(20, 20, 50, 0, Math.PI / 2, false);
+        context.closePath();
+        context.fillStyle = '#0000ff';
+        context.fill();
+        // 边框
+        context.beginPath();
+        context.arc(100, 20, 50, 0, Math.PI / 2, false);
+        context.strokeStyle = '#0000ff'
+        context.closePath();
+        context.stroke();
+        // 填充+边框
+        context.beginPath();
+        context.arc(180, 20, 50, 0, Math.PI / 2, false);
+        context.strokeStyle = '#0000ff';
+        context.closePath();
+        context.stroke();
+        context.fillStyle = 'rgba(0,0,255,0.2)';
+        context.fill();
+    }
+</script>
+<script>
+    //对角线渐变
+    function demo6(id) {
+        var canvas = document.getElementById(id);
+        var context = canvas.getContext("2d");
+        var grd = context.createLinearGradient(0, 0, 300, 200);
+        grd.addColorStop(0, "#ff0000");
+        grd.addColorStop(1, "#0000ff");
+        context.fillStyle = grd;
+        context.fillRect(0, 0, 300, 200);
+
+        //横向线型多色渐变
+        var grd = context.createLinearGradient(0, 0, 300, 0);
+        grd.addColorStop(0, "#ff0000");
+        grd.addColorStop(0.2, "#ff00ff");
+        grd.addColorStop(0.4, "#ffff00");
+        grd.addColorStop(0.6, "#00ffff");
+        grd.addColorStop(0.8, 'pink');
+        grd.addColorStop(1, "#0000ff");
+        context.fillStyle = grd;
+        context.fillRect(0, 0, 300, 200);
+
+        //径向渐变
+        var grd = context.createRadialGradient(150, 100, 0, 150, 100, 100);
+        grd.addColorStop(0, 'rgb(100,200,100)');
+        grd.addColorStop(1, 'rgb(50,100,10)');
+        context.fillStyle = grd;
+        context.beginPath();
+        context.arc(150, 100, 100, 0, Math.PI * 2, true);
+        context.closePath();
+        context.fill();
+
+        
+    }
+</script>
+</html>

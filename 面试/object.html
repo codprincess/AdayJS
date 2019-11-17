@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript面向对象</title>
+</head>
+<body>
+    <script>
+        //创建对象的三种方式
+        //方式一:工厂模式
+        function Person(name,sex,age){
+            var obj = {};
+            obj.name = name;
+            obj.sex = sex;
+            obj.age = age;
+            obj.run = function(){
+               console.log('running everyday!')
+            }
+            return obj;
+        }
+        var person = Person('jing','sex',20);
+        person.run();
+    </script>
+    <script>
+        //构造函数结构
+        function Person2(name,sex,age){
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+            this.run = function(){
+                console.log('coding everyday!')
+            }
+        }
+        //实例化
+        var person2 = new Person2("jing","man",20);
+        person2.run();
+    </script>
+    <script>
+        //构造函数的改进
+        var action = {
+            run:function(){
+                console.log('sleeping everyday');
+            }
+        }
+        //构造函数
+        function Person3(name,sex,age){
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+            this.run = action.run;
+        }
+        var person3 = new Person3("jing","man",21);
+        person3.run();
+    </script>
+    <script>
+        //原型模式
+        function Person4(name,sex,age){
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+        }
+        //使用原型对象 Object.prototype
+        Person4.prototype.eat = function(){
+            console.log("eating everyday")
+        }
+        var person4 = new Person4("jing","man",20);
+        person4.eat();
+    </script>
+</body>
+</html>

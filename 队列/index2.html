@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>队列的优先级</title>
+</head>
+<body>
+    <script>
+        function Queue() {
+                //属性
+                this.item = []
+                //方法
+                //1.将元素加入队列出
+                Queue.prototype.enqueue = function (element) {
+                    this.item.push(element)
+                }
+                Queue.prototype.dequeue = function () {
+                    return this.item.shift()
+                }
+                //2.从队列中删除前端数据
+                Queue.prototype.front = function () {
+                    return this.item[0]
+                }
+                //3.查看队列是否为空
+                Queue.prototype.isEmpty = function () {
+                    return this.item.length == 0
+                }
+                //4.查看队列中元素的个数
+                Queue.prototype.size = function () {
+                    return this.item.length
+                }
+                //5.toString
+                Queue.prototype.toString = function () {
+                    var resultString = ''
+                    for (var i = 0; i < this.item.length; i++) {
+                        resultString += this.item[i] + ''
+                    }
+                    return resultString
+                }
+
+            }
+        //封装队列优先级
+        function PriorotyQueue(){
+            //从新创建一个类,理解成内部类
+            function QueueElement(element,priority){
+                this.element = element
+                this.priority = priority
+            }
+
+            //封装属性
+            this.items = []
+            //实现插入方法
+            PriorotyQueue.prototype.enqueue = function(element,priority){
+                //创建对象
+                var queueElement = new QueueElement(element,priority)
+            }
+        }
+
+        //测试代码
+    </script>
+</body>
+</html>
