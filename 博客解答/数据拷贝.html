@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据赋值拷贝问题</title>
+</head>
+<body>
+    <h1>原理分析</h1>
+    <p>
+        因为变量this.a的类型是Object，Object赋值的方式是地址引用，即this.b =
+        this.a，将this.a赋值给this.b后，this.b的内存地址指向了this.a，因此修改this.b的属性也会修改this.a的属性。
+        
+        假设你需要将this.a赋值给this.b，并且修改this.b不影响this.a，则需要用到对象克隆,克隆还分深克隆和浅克隆。
+    </p>
+    <h2>如果不是对象就可以</h2>
+</body>
+<script>
+
+    function test(){
+        this.a = {val:1};
+       // this.b = this.a 这里就不能直接赋值了
+       this.b = Object.assign({}, this.a)
+        //需要改变b的值
+        this.change = function(){
+            this.b.val = 2
+        }
+        this.show = function(){
+            console.log("输出a: "+this.a.val+" b的值 "+this.b.val)
+        }
+    }
+    var testVal = new test()
+    testVal.change();
+    testVal.show();
+
+    //非对象赋值
+    function NewTest(){
+        this.a = 3;
+        this.b = this.a;
+        this.Newcheng = function(){
+            this.b = 4
+        }
+        this.Newshow = function(){
+            console.log("输出a: " +this.a+" b的值 :"+this.b)
+        }
+      
+    }
+    
+
+    var NewTests = new NewTest()
+    NewTests.Newcheng();
+    NewTests.Newshow();
+</script>
+</html>
