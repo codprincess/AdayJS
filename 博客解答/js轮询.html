@@ -77,6 +77,30 @@
         //         });
         // }
 
+        //五.经典的场景就是：想象一个用户在网页端通过扫码进行支付，
+        //我们怎么判断用户支付的状态
+
+
+        // const timeId = setInterval(() => {
+        //     //如果支付状态显示为成功
+        //    if(paying == 'success'){
+        //        //清除定时器
+        //        clearInterval(this.timeId)
+        //    };
+        //    //否则每隔三秒执行checkPaymentDone()方法
+        //    checkPaymentDone();
+        // }, 3000);
+
+        // function checkPaymentDone(){
+        //     axios.post('/payment/check', {
+        //         // 如果需要传数据，从这里传
+        //     }).then(response => {
+        //         if (response.data.finished) {
+        //             paying = 'success';
+        //         }
+        //     })
+        // }
+
 
         //js轮询的一个坑,数据多次请求的解决方案
 
@@ -89,6 +113,7 @@
                 },1000)
             })
         }
+
 
         //轮询
         function start(){
@@ -113,6 +138,7 @@
         let isPlay = true
         botton.addEventListener("click",function(){
             isPlay = !isPlay;
+            console.log(isPlay);
             botton.innerHTML = isPlay?'暂停':'播放';
             isPlay?start():stop()
         },false)
