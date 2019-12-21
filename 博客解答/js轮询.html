@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js轮询</title>
+</head>
+<body>
+    <button id="button">暂停</button>
+   
+</body>
+<script>
+        //隔一段时间执行无需使用setTimeout和setInterval
+        // function sleep(number) {
+        //     var now = new Date();
+        //     var exitTime = now.getTime() + number;
+        //     while (true) {
+        //         now = new Date();
+        //         if (now.getTime() > exitTime)
+        //             return;
+        //     }
+        // }
+
+        // console.log("开始执行")
+        // sleep(2000)
+            // console.log("2000ms后执行")
+
+    //方法二
+        // function setFiniteInterval(callback, interval, times) {
+        //     let handle = setInterval(() => {
+        //         callback()
+        //         times--
+        //         if (times <= 0) clearInterval(handle)
+        //     }, interval)
+        // }
+
+        // setFiniteInterval(() => console.log('hello'), 1000, 5)
+        //     async function sleep(time) {
+        //         return new Promise(res => setTimeout(res, time))
+        //     }
+
+        //     async function main() {
+        //         for (let i = 0; i < 5; i++) {
+        //             console.log(i)
+        //             if (i < 4) await sleep(1000)
+        //         }
+        //     }
+        //     main()
+
+        //方法三,这个不写 clearTimeout会照成内存泄漏
+        // window.setInterval(myFunction, 1000 * 5);
+        //     var i = 1;
+        //     function myFunction() {
+        //         console.log("轮训任务=================>" + i++);
+        //         //to do ajax
+        //     }
+
+
+        //方法四,这是我在某个vue项目中的案列
+        // function setTimer() {
+        //     let timer
+        //     axios.post(url, params)
+        //         .then(function (res) {
+        //             if (res) {
+        //                 console.log(res);
+        //                 timer = setTimeout(() => {
+        //                     this.setTimer()
+        //                 }, 5000)
+        //             } else {
+        //                 clearTimeout(timer) //清理定时任务
+        //             }
+
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        // }
+
+
+        //js轮询的一个坑,数据多次请求的解决方案
+
+        let timerId = 1 //模拟计时器的id,唯一性
+        let timerObj = {}//计时器存储器
+        function getDate(){
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    resolve({data:666666})
+                },1000)
+            })
+        }
+
+        //轮询
+        function start(){
+            const id = timerId++
+            timerObj[id] = true
+            async function timerFn(){
+                if(!timerObj[id]) return
+                const {data} = await getDate()//模拟请求
+                console.log('8888',data)
+                setTimeout(timerFn,2000)
+            }
+            timerFn()
+        }
+
+        //点击按钮暂停
+        function stop(){
+            timerObj = {}
+        }
+
+        start()//设置一开始就进行轮询
+        const botton = document.querySelector("#button")
+        let isPlay = true
+        botton.addEventListener("click",function(){
+            isPlay = !isPlay;
+            botton.innerHTML = isPlay?'暂停':'播放';
+            isPlay?start():stop()
+        },false)
+</script>
+</html>
