@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>鼠标悬停图片360度旋转效果</title>
+    <style>
+        .xwcms {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto;
+            background: no-repeat url(%E6%8B%9B%E5%95%86/img/arrow.gif) left top;
+            -webkit-background-size: 220px 220px;
+            -moz-background-size: 220px 220px;
+            background-size: 220px 220px;
+            -webkit-border-radius: 110px;
+            border-radius: 110px;
+            -webkit-transition: -webkit-transform 2s ease-out;
+            -moz-transition: -moz-transform 2s ease-out;
+            -o-transition: -o-transform 2s ease-out;
+            -ms-transition: -ms-transform 2s ease-out;
+        }
+
+        .xwcms:hover {
+            -webkit-transform: rotateZ(360deg);
+            -moz-transform: rotateZ(360deg);
+            -o-transform: rotateZ(360deg);
+            -ms-transform: rotateZ(360deg);
+            transform: rotateZ(360deg);
+        }
+    </style>
+</head>
+<div class="xwcms">
+</div>
+
+<body>
+</body>
+
+</html>
