@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>从排序数组中删除重复项</title>
+</head>
+<body>
+    <p>
+        第二种思路：
+    不通过计算重复个数 通过追踪重复元素的指针位置 并动态更新 =>
+    增加一个 是重复元素且是第一次出现的位置指针 r 默认初始化为 0 ，数组遍历从 i = 1 开始
+    当且仅当遇到下一个不相同即不重复的元素时，更新指针位置为下一个元素(虽然是重复元素但是还是要保留第一个不能被替换) && nums[r] = nums[i]
+    否则指针位置不动，原数组继续遍历
+    数组遍历完后 返回 r+1 (为什么加1？因为是索引位置，而题目要求返回的是长度)
+    由此可生成解法二：【即所谓的双指针法】
+    </p>
+    <script>
+        var removeDuplicates = function(nums) {
+            //双指针法
+            var j = 0;
+            for(var i = 0;i<nums.length-1;i++){
+            
+                if(nums[i] != nums[i-1]){
+                    
+                    j++;
+                    nums[j] = nums[i]
+                }
+            }
+            //返回修改后数组的长度
+            return j+1
+        };
+    </script>
+</body>
+</html>
