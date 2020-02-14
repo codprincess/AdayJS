@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝和浅拷贝的区别和实现方法</title>
+</head>
+<body>
+    <p>首先：浅拷贝和深拷贝只针对于像Object，Array这样的复杂对象</p>
+    <p>浅拷贝只复制对象的第一层属性、深拷贝可以对对象的属性进行递归复制</p>
+    <p>
+        两者的区别，一个对象浅复制后，是深层次的对象地址的复制，并没有开辟新的栈，也就是复制的结果是两个对象指向同一个地址，修改其中一个对象的属性，则两一个对象的属性也会发生改变。深拷贝则开辟了一个新的栈，两个对象对应两个不同的地址，修改一个对象的属性，不会改变另一个对象的属性。
+    </p>
+
+    <script>
+        //原始对象
+        var obj = {
+            a:1,
+            arr:[2,3],
+            say:()=>{
+                console.log('hello')
+            },
+            obj1:{
+                arr:[34,55,5],
+                hand:()=>{
+                    console.log('hand')
+                },
+                obj3:{
+                    a:1,
+                    take:()=>{
+                        console.log('take')
+                    }
+                }
+            }
+        };
+        //开始浅复制
+        var shallowObj = shallowCopy(obj);
+        //定义浅复制的逻辑
+        function shallowCopy(src){
+            var dst = {};
+            for(var prop in src){
+                if(src.hasOwnProperty(prop)){
+                    dst[prop] = src[prop];
+                }
+            }
+            return dst;
+        }
+
+        //改变复制后的新对象属性值（第一层属性）
+        shallowObj.a  = 2;
+        shallowObj.arr = [9,8];
+        shallowObj.say = function(){
+            console.log('world')
+        }
+    </script>
+</body>
+</html>
